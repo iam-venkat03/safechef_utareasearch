@@ -75,6 +75,7 @@ propcache==0.2.0
 protobuf==4.24.4
 psutil==6.1.1
 pure_eval==0.2.3
+python==3.11.4
 py-exceptions==1.2.2
 PyAudio==0.2.14
 pycparser==2.22
