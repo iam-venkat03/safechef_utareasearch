@@ -60,7 +60,7 @@ matplotlib-inline==0.1.7
 mlxtend==0.23.1
 multidict==6.1.0
 nest-asyncio==1.6.0
-numpy==2.1.1
+numpy==1.24.4
 openai==1.64.0
 packaging==24.1
 pandas==2.2.2
@@ -94,7 +94,7 @@ python-dotenv==1.0.0
 python-pptx==1.0.2
 pyttsx3==2.98
 pytz==2024.2
-pywin32==307
+pywin32==306
 pyzmq==26.2.1
 radian==0.6.13
 rchitect==0.4.7
