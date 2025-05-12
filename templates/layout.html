@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>SafeChef Asistente de Entrenamiento</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>SafeChef Asistente de Entrenamiento</h1>
+      </div>
+      <div class="nav-bar">
+        <span class="welcome-user">¡Bienvenido a SafeChef!</span>
+        <div>
+          <a href="{{ url_for('home') }}">Inicio</a>
+          <a href="{{ url_for('topics_page') }}">Temas</a>
+          <a href="{{ url_for('quiz_home') }}">Cuestionario</a>
+          <!-- Add this link -->
+          <a href="{{ url_for('references_page') }}">Referencias</a>
+        </div>
+      </div>
+      <div class="card">
+        {% block content %}
+        <!-- El contenido específico de cada página se insertará aquí -->
+        {% endblock %}
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}Resultados{% endblock %}
+
+{% block content %}
+<h2>¡Cuestionario Completado!</h2>
+<p>Tu Puntuación: {{ score }} de {{ questions|length }}</p>
+{% if email %}
+  <p>Los resultados han sido enviados a tu correo: <strong>{{ email }}</strong></p>
+{% else %}
+  <p>No se proporcionó un correo electrónico para enviar los resultados.</p>
+{% endif %}
+<div class="options-menu">
+  <a href="{{ url_for('quiz_home') }}"><button class="option-btn">Repetir Cuestionario</button></a>
+  <a href="{{ url_for('home') }}"><button class="option-btn">Volver al Inicio</button></a>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ topic.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ topic.title }}</h2>
+<div class="final-output">
+  {{ content | safe }}
+</div>
+<div class="options-menu">
+  <a href="{{ url_for('topics_page') }}"><button class="option-btn">Volver a Temas</button></a>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>¡Bienvenido a tu Asistente de Entrenamiento SafeChef!</h2>
+<p>
+  SafeChef Asistente de Entrenamiento te ayuda a dominar los conceptos de seguridad alimentaria a través de temas interactivos y cuestionarios. 
+  Ya seas estudiante, educador o profesional, nuestras herramientas de IA hacen que el aprendizaje sea eficiente y efectivo.
+</p>
+<h3>¿Qué puedes hacer?</h3>
+<ul>
+  <li><strong>Explorar Temas:</strong> Sumérgete en temas de seguridad alimentaria con información detallada.</li>
+  <li><strong>Realizar Cuestionarios:</strong> Pon a prueba tus conocimientos con cuestionarios generados por IA.</li>
+  <li><strong>Obtener Recomendaciones:</strong> Recibe sugerencias de aprendizaje personalizadas.</li>
+  <!-- Add this list item -->
+  <li><strong>Consultar Referencias:</strong> Accede a plantillas, listas de verificación, diagramas y organigramas.</li>
+</ul>
+<div class="options-menu">
+  <a href="{{ url_for('topics_page') }}"><button class="option-btn">Explorar Temas</button></a>
+  <a href="{{ url_for('quiz_home') }}"><button class="option-btn">Hacer Cuestionario</button></a>
+  <!-- Add this button -->
+  <a href="{{ url_for('references_page') }}"><button class="option-btn">Ver Referencias</button></a>
+</div>
+<p><strong>Recomendación:</strong> {{ recommendation }}</p>
+{% endblock %}

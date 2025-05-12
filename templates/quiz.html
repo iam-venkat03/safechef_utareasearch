@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}Cuestionario{% endblock %}
+
+{% block content %}
+{% if question %}
+  <h2>Pregunta {{ q_index + 1 }} de {{ questions|length }}</h2>
+  <p>{{ question.question }}</p>
+  {% if error %}
+    <div class="error">
+      {{ error }}
+    </div>
+  {% endif %}
+  <form method="post" id="quiz-form">
+    {% for i in range(question.options | length) %}
+      <label>
+        <input type="radio" name="answer" value="{{ i }}"> {{ question.options[i] }}
+      </label><br>
+    {% endfor %}
+    <button type="submit">Siguiente</button>
+  </form>
+{% else %}
+  <h2>Realizar Cuestionario</h2>
+  <form method="post">
+    <label>Correo Electrónico:</label><br>
+    <input type="email" name="user_email" required><br><br>
+    <label>Seleccione la Dificultad:</label><br>
+    <input type="radio" name="difficulty" value="standard" required> Estándar (5 preguntas)<br>
+    <input type="radio" name="difficulty" value="advanced"> Avanzada (2 preguntas)<br>
+    <input type="radio" name="difficulty" value="expert"> Experta (3 preguntas)<br><br>
+    <button type="submit">Iniciar Cuestionario</button>
+  </form>
+{% endif %}
+<div class="options-menu">
+  <a href="{{ url_for('home') }}"><button class="option-btn">Volver al Inicio</button></a>
+</div>
+
+<script>
+  document.getElementById("quiz-form").addEventListener("submit", function(event) {
+    const radios = document.getElementsByName("answer");
+    let selected = false;
+    for (const radio of radios) {
+      if (radio.checked) {
+        selected = true;
+        break;
+      }
+    }
+    if (!selected) {
+      event.preventDefault();
+      alert("Por favor, selecciona una opción antes de continuar.");
+    }
+  });
+</script>
+{% endblock %}

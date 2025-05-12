@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}Temas Disponibles{% endblock %}
+
+{% block content %}
+<h2>Temas Disponibles</h2>
+<ul>
+  {% for topic in topics %}
+    <li>
+      <a href="{{ url_for('topic_page', topic_id=topic.id) }}">{{ topic.title }}</a>
+    </li>
+  {% endfor %}
+</ul>
+<div class="options-menu">
+  <a href="{{ url_for('home') }}"><button class="option-btn">Volver al Inicio</button></a>
+</div>
+{% endblock %}
