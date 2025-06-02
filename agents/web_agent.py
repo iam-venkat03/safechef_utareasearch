@@ -5,9 +5,16 @@ import os
 import markdown
 from email_agent import create_email, send_email  
 
-app = Flask(__name__, static_folder="../static", template_folder=os.path.abspath("../templates"))
+# Compute paths relative to this file
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEMPLATE_FOLDER = os.path.join(BASE_DIR, '..', 'templates')
+STATIC_FOLDER = os.path.join(BASE_DIR, '..', 'static')
+
+# Initialize Flask app with safe absolute paths
+app = Flask(__name__, static_folder=STATIC_FOLDER, template_folder=TEMPLATE_FOLDER)
 
 app.secret_key = "super-secret-key"  # Reemplazar con una clave segura en producción
+
 
 # Temas (con contenido en estilo markdown)
 topics = [
