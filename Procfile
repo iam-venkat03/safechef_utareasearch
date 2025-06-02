@@ -1,1 +1,1 @@
-web: gunicorn agents.web_agent:app
+web: gunicorn flask_app:app
