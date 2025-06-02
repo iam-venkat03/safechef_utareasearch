@@ -1,1 +1,1 @@
-web: gunicorn agents.web_agent:app
+gunicorn agents.web_agent:app
