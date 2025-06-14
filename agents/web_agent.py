@@ -3,7 +3,8 @@ import random
 import datetime
 import os
 import markdown
-from email_agent import create_email, send_email  
+# from email_agent import create_email, send_email  
+from agents.email_agent import create_email, send_email
 
 # Compute paths relative to this file
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
