@@ -3,8 +3,7 @@ import random
 import datetime
 import os
 import markdown
-# from email_agent import create_email, send_email  
-from agents.email_agent import create_email, send_email
+from agents.email_agent import create_email, send_email, generate_recommendation  # Updated import
 
 # Compute paths relative to this file
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -1707,6 +1706,16 @@ def quiz_question(q_index):
         user_answers[q_index] = answer
         session["user_answers"] = user_answers
         
+        # Track wrong answers
+        wrong_questions = session.get("wrong_questions", [])
+        if answer != question["correctAnswer"]:
+            wrong_questions.append({
+                "question": question["question"],
+                "user_answer": question["options"][answer] if answer is not None else "No seleccionada",
+                "correct_answer": question["options"][question["correctAnswer"]]
+            })
+        session["wrong_questions"] = wrong_questions
+        
         if answer == question["correctAnswer"]:
             session["score"] = session.get("score", 0) + 1
         
@@ -1720,22 +1729,77 @@ def quiz_results():
     questions = session.get("questions", [])
     score = session.get("score", 0)
     user_email = session.get("user_email")
+    wrong_questions = session.get("wrong_questions", [])
 
     if user_email:
         try:
-            # Build result message
-            body = f"Hola,\n\nGracias por completar el cuestionario.\nTu puntuación fue: {score} de {len(questions)}.\n\nSaludos,\nSafeChef"
-            html_body = f"<p>Hola,</p><p>Gracias por completar el cuestionario.</p><p><strong>Tu puntuación:</strong> {score} de {len(questions)}</p><p>Saludos,<br>SafeChef</p>"
+            # Generate recommendations
+            general, topic_summary, tips, question_review = generate_recommendation(score, len(questions), wrong_questions)
 
-            # Create and send email
+            # Enhanced email content
+            subject = "Resultados del cuestionario SafeChef"
+            body = f"""Hola,
+
+Gracias por completar el cuestionario.
+
+Tu puntuación: {score} de {len(questions)}
+
+Recomendación general:
+{general}
+
+Resumen por tema:
+{chr(10).join(topic_summary)}
+
+Sugerencias:
+{chr(10).join(tips)}
+
+Preguntas incorrectas:
+{chr(10).join(question_review)}
+
+Saludos,
+SafeChef
+"""
+            html_body = f"""
+<html>
+<body>
+    <h2>Resultados del cuestionario</h2>
+    <p><strong>Tu puntuación:</strong> {score} de {len(questions)}</p>
+    <h3>Recomendación general:</h3>
+    <p>{general}</p>
+    <h3>Resumen por tema:</h3>
+    <ul>
+        {''.join(f"<li>{line}</li>" for line in topic_summary)}
+    </ul>
+    <h3>Sugerencias:</h3>
+    <ul>
+        {''.join(f"<li>{tip[2:]}</li>" for tip in tips)}
+    </ul>
+    <h3>Preguntas incorrectas:</h3>
+    <ol>
+        {''.join(f"<li><strong>Pregunta:</strong> {q['question']}<br><strong>Tu respuesta:</strong> {q['user_answer']}<br><strong>Respuesta correcta:</strong> {q['correct_answer']}</li>" for q in wrong_questions)}
+    </ol>
+    <p>Saludos,<br>SafeChef</p>
+</body>
+</html>
+"""
+
+            # Send enhanced email
             sender_email = "safechef8@gmail.com"
             app_password = "xefc edqs sqiw rllf"
-            msg = create_email(sender_email, [user_email], "Resultados del Cuestionario - SafeChef", body, html_body)
-            send_email("smtp.gmail.com", 465, sender_email, app_password, [user_email], msg)
+            email_msg = create_email(sender_email, [user_email], subject, body, html_body)
+            send_email("smtp.gmail.com", 465, sender_email, app_password, [user_email], email_msg)
         except Exception as e:
             print(f"Error al enviar el correo: {e}")
-            # Optionally, you could redirect to an error page or add a flash message
-            # For now, we'll proceed to render the results page
+            # Fallback to original email logic
+            try:
+                body = f"Hola,\n\nGracias por completar el cuestionario.\nTu puntuación fue: {score} de {len(questions)}.\n\nSaludos,\nSafeChef"
+                html_body = f"<p>Hola,</p><p>Gracias por completar el cuestionario.</p><p><strong>Tu puntuación:</strong> {score} de {len(questions)}</p><p>Saludos,<br>SafeChef</p>"
+                sender_email = "safechef8@gmail.com"
+                app_password = "xefc edqs sqiw rllf"
+                msg = create_email(sender_email, [user_email], "Resultados del Cuestionario - SafeChef", body, html_body)
+                send_email("smtp.gmail.com", 465, sender_email, app_password, [user_email], msg)
+            except Exception as e2:
+                print(f"Error al enviar el correo de respaldo: {e2}")
 
     return render_template("results.html", questions=questions, score=score, email=user_email)
 
