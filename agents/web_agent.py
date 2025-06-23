@@ -1803,5 +1803,9 @@ SafeChef
 
     return render_template("results.html", questions=questions, score=score, email=user_email)
 
+@app.route("/study-plan")
+def study_plan():
+    return render_template("study_plan.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
