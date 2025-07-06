@@ -11,14 +11,11 @@
   <li><strong>Explorar Temas:</strong> Sumérgete en temas de seguridad alimentaria con información detallada.</li>
   <li><strong>Realizar Cuestionarios:</strong> Pon a prueba tus conocimientos con cuestionarios generados por IA.</li>
   <li><strong>Obtener Recomendaciones:</strong> Recibe sugerencias de aprendizaje personalizadas.</li>
-  <!-- Add this list item -->
   <li><strong>Consultar Referencias:</strong> Accede a plantillas, listas de verificación, diagramas y organigramas.</li>
 </ul>
 <div class="options-menu">
   <a href="{{ url_for('topics_page') }}"><button class="option-btn">Explorar Temas</button></a>
   <a href="{{ url_for('quiz_home') }}"><button class="option-btn">Hacer Cuestionario</button></a>
-  <a href="{{ url_for('study_plan') }}"><button class="option-btn">Plan de Estudio</button></a>
-  <!-- Add this button -->
   <a href="{{ url_for('references_page') }}"><button class="option-btn">Ver Referencias</button></a>
 </div>
 <p><strong>Recomendación:</strong> {{ recommendation }}</p>
