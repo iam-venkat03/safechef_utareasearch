@@ -1803,7 +1803,7 @@ SafeChef
 
     return render_template("results.html", questions=questions, score=score, email=user_email)
 
-@app.route("/study-plan")
+@app.route("/study_plan")
 def study_plan():
     return render_template("study_plan.html")
 
